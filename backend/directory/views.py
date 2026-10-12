@@ -32,9 +32,16 @@ class EtablissementSearchView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_base_queryset(self):
-        qs = Etablissement.objects.filter(
-            statut_verification=Etablissement.VERIFIE
-        ).select_related("quartier")
+        qs = (
+            Etablissement.objects.filter(statut_verification=Etablissement.VERIFIE)
+            .select_related("quartier")
+            .prefetch_related(
+                "services__specialite",
+                "exercices__praticien__specialites",
+                "horaires",
+                "gardes",
+            )
+        )
 
         params = self.request.query_params
 
@@ -72,9 +79,7 @@ class EtablissementSearchView(generics.ListAPIView):
 
         q = request.query_params.get("q")
         if q:
-            queryset = [
-                etab for etab in queryset if texte_correspond(q, etab.nom, etab.repere)
-            ]
+            queryset = [etab for etab in queryset if self._correspond(q, etab)]
 
         ouvert_maintenant = request.query_params.get("ouvert_maintenant")
         if ouvert_maintenant is not None:
@@ -100,6 +105,25 @@ class EtablissementSearchView(generics.ListAPIView):
             return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    @staticmethod
+    def _correspond(q, etablissement):
+        """Texte libre : nom/repère de l'établissement, mais aussi les
+        libellés (grand public ou médical) des spécialités qu'on y
+        trouve, pour que "pediatre" retrouve un établissement proposant
+        de la "Pédiatrie" même sans correspondance dans son nom."""
+        if texte_correspond(q, etablissement.nom, etablissement.repere):
+            return True
+        libelles = []
+        for service in etablissement.services.all():
+            if service.specialite_id:
+                libelles.append(service.specialite.libelle)
+                libelles.append(service.specialite.libelle_grand_public)
+        for exercice in etablissement.exercices.all():
+            for specialite in exercice.praticien.specialites.all():
+                libelles.append(specialite.libelle)
+                libelles.append(specialite.libelle_grand_public)
+        return texte_correspond(q, *libelles)
 
 
 class PraticienSearchView(generics.ListAPIView):

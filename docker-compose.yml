@@ -1,0 +1,31 @@
+# Docker Compose pour SantéGuinée - usage optionnel.
+#
+# Par défaut, le backend Django tourne sur SQLite (voir README). Ce
+# fichier fournit une base PostgreSQL pour celles et ceux qui préfèrent
+# s'en approcher d'une configuration de production. Démarrer le conteneur
+# puis exporter DATABASE_URL avant de lancer manage.py :
+#
+#   docker compose up -d db
+#   export DATABASE_URL=postgres://santeguinee:santeguinee@localhost:5432/santeguinee
+#   cd backend && venv/bin/python manage.py migrate
+#
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: santeguinee
+      POSTGRES_USER: santeguinee
+      POSTGRES_PASSWORD: santeguinee
+    ports:
+      - "5432:5432"
+    volumes:
+      - santeguinee_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U santeguinee"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  santeguinee_postgres_data:

@@ -29,7 +29,10 @@ class TestGenerationCreneaux:
         )
         plage.types_autorises.add(type_consultation)
 
-        aujourd_hui = timezone.localdate()
+        # On démarre la fenêtre demain pour ne jamais dépendre de l'heure
+        # réelle au moment du test (generer_creneaux exclut les créneaux
+        # déjà passés par rapport à l'instant présent).
+        aujourd_hui = timezone.localdate() + datetime.timedelta(days=1)
         crees = generer_creneaux(exercice, jours=14, aujourd_hui=aujourd_hui)
 
         # 1h / 20 min = 3 créneaux par lundi tombant dans la fenêtre de 14 jours.

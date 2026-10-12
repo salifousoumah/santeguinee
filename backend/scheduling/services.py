@@ -68,7 +68,8 @@ def generer_creneaux(exercice, jours=None, aujourd_hui=None):
 
             while courant + duree <= fin_plage:
                 fin_creneau = courant + duree
-                if not chevauche_indisponibilite(courant, fin_creneau):
+                deja_passe = courant <= timezone.now()
+                if not deja_passe and not chevauche_indisponibilite(courant, fin_creneau):
                     creneau, cree = Creneau.objects.get_or_create(
                         exercice=exercice,
                         debut=courant,
