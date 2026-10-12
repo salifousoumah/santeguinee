@@ -8,7 +8,7 @@ pur, suffisant pour le volume de données d'un MVP.
 
 import math
 import unicodedata
-from datetime import datetime, timedelta
+from difflib import SequenceMatcher
 
 from django.utils import timezone
 
@@ -27,13 +27,35 @@ def normaliser_texte(texte):
     return "".join(c for c in texte if not unicodedata.combining(c))
 
 
+SEUIL_RESSEMBLANCE = 0.75
+
+
 def texte_correspond(requete, *champs):
-    """True si la requête normalisée apparaît dans au moins un des champs
-    (eux aussi normalisés)."""
+    """True si la requête normalisée correspond à au moins un des champs
+    (eux aussi normalisés).
+
+    Deux niveaux de tolérance :
+    - sous-chaîne directe (ex : "clinique" dans "Clinique Test") ;
+    - ressemblance floue mot à mot (ex : "pediatre" ~ "pédiatrie"), via
+      difflib.SequenceMatcher, pour couvrir les variantes de terminaison
+      en plus des accents déjà neutralisés par normaliser_texte.
+    """
     requete_norm = normaliser_texte(requete)
     if not requete_norm:
         return True
-    return any(requete_norm in normaliser_texte(champ) for champ in champs if champ)
+
+    for champ in champs:
+        if not champ:
+            continue
+        champ_norm = normaliser_texte(champ)
+        if requete_norm in champ_norm:
+            return True
+        for mot in champ_norm.split():
+            if mot in requete_norm or requete_norm in mot:
+                return True
+            if SequenceMatcher(None, requete_norm, mot).ratio() >= SEUIL_RESSEMBLANCE:
+                return True
+    return False
 
 
 EARTH_RADIUS_KM = 6371.0

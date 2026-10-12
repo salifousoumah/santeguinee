@@ -239,7 +239,7 @@ class Horaire(models.Model):
         verbose_name_plural = "Horaires"
         constraints = [
             models.CheckConstraint(
-                check=(
+                condition=(
                     models.Q(etablissement__isnull=False, service__isnull=True)
                     | models.Q(etablissement__isnull=True, service__isnull=False)
                 ),
@@ -396,7 +396,7 @@ class Signalement(models.Model):
         verbose_name_plural = "Signalements"
         constraints = [
             models.CheckConstraint(
-                check=(
+                condition=(
                     models.Q(etablissement__isnull=False, praticien__isnull=True)
                     | models.Q(etablissement__isnull=True, praticien__isnull=False)
                 ),
