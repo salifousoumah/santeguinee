@@ -1,0 +1,44 @@
+name: santeguinee_mobile
+description: >
+  SantéGuinée — application mobile patient (MVP). Consomme l'API
+  backend Django/DRF du dépôt (voir ../backend). Annuaire des
+  établissements/praticiens de santé et prise de rendez-vous en ligne.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management (choix unique et cohérent pour tout le projet).
+  provider: ^6.1.2
+
+  # Appels HTTP vers l'API backend.
+  http: ^1.2.2
+
+  # Persistance locale légère : jeton d'authentification, utilisateur
+  # courant, petit cache d'enrichissement pour "mes rendez-vous"
+  # (voir services/local_cache_service.dart).
+  shared_preferences: ^2.3.3
+
+  # Formatage des dates/heures en français (jours/mois en toutes
+  # lettres dans les listes de créneaux, etc.).
+  intl: ^0.19.0
+
+  # Ouvrir le composeur d'appel téléphonique depuis la fiche
+  # établissement (RG non numérotée mais explicitement demandée en P-05).
+  url_launcher: ^6.3.1
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true

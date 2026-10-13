@@ -1,0 +1,38 @@
+# Généré par `flutter create .` — voir mobile/README.md pour la
+# procédure d'installation en une fois. Ces dossiers/fichiers ne sont
+# jamais écrits à la main dans ce dépôt et ne doivent pas être commités
+# avant qu'un développeur disposant de Flutter les ait régénérés.
+
+# Dossiers de plateformes générés par `flutter create .`
+/android/
+/ios/
+/web/
+/linux/
+/macos/
+/windows/
+
+# Outils / build Flutter & Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.g.dart.bak
+
+# IDE
+.idea/
+*.iml
+*.iws
+.vscode/
+
+# Divers OS
+.DS_Store
+Thumbs.db
+
+# Fichiers générés par les tests d'intégration / coverage
+coverage/
+
+# Secrets éventuels (ex. .env si un jour utilisé pour l'URL de l'API)
+.env
