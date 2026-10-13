@@ -64,6 +64,7 @@ class _FicheEtablissementScreenState extends State<FicheEtablissementScreen> {
             .toList();
       });
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreurPraticiens = e.message);
     } finally {
       if (mounted) setState(() => _chargementPraticiens = false);

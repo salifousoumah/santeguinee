@@ -112,6 +112,7 @@ class _MesRendezVousScreenState extends State<MesRendezVousScreen>
 
       setState(() => _rendezVous = resultats);
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreur = e.message);
     } finally {
       if (mounted) setState(() => _chargement = false);

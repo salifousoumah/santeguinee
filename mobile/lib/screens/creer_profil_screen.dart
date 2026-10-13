@@ -70,6 +70,7 @@ class _CreerProfilScreenState extends State<CreerProfilScreen> {
       if (!mounted) return;
       Navigator.of(context).pop(true);
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreur = e.message);
     } finally {
       if (mounted) setState(() => _enCours = false);

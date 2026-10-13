@@ -49,6 +49,7 @@ class _ChoixCreneauScreenState extends State<ChoixCreneauScreen> {
           await context.read<SchedulingService>().listerCreneauxLibres(widget.exercice.id);
       setState(() => _creneaux = creneaux);
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreur = e.message);
     } finally {
       if (mounted) setState(() => _chargement = false);

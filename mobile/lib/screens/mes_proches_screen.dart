@@ -185,6 +185,7 @@ class _FormulaireAjoutProcheState extends State<_FormulaireAjoutProche> {
     } on ApiException catch (e) {
       // Inclut le message RG-24 ("un titulaire ne peut pas gérer plus
       // de 10 proches") renvoyé tel quel par le serveur.
+      if (!mounted) return;
       setState(() => _erreur = e.message);
     } finally {
       if (mounted) setState(() => _enCours = false);

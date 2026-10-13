@@ -56,6 +56,7 @@ class _ConnexionScreenState extends State<ConnexionScreen> {
         _etape = _EtapeConnexion.code;
       });
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreur = e.message);
     } finally {
       if (mounted) setState(() => _enCours = false);
@@ -87,6 +88,7 @@ class _ConnexionScreenState extends State<ConnexionScreen> {
       if (!mounted) return;
       Navigator.of(context).pop(succesComplet);
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreur = e.message);
     } finally {
       if (mounted) setState(() => _enCours = false);

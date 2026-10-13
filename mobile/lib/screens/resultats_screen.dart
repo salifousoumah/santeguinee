@@ -93,6 +93,7 @@ class _ResultatsScreenState extends State<ResultatsScreen>
         _urlSuivanteEtab = page.next;
       });
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreurEtab = e.message);
     } finally {
       if (mounted) setState(() => _chargementEtab = false);
@@ -111,6 +112,7 @@ class _ResultatsScreenState extends State<ResultatsScreen>
         _urlSuivanteEtab = page.next;
       });
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreurEtab = e.message);
     } finally {
       if (mounted) setState(() => _chargementEtab = false);
@@ -132,6 +134,7 @@ class _ResultatsScreenState extends State<ResultatsScreen>
         _urlSuivantePrat = page.next;
       });
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreurPrat = e.message);
     } finally {
       if (mounted) setState(() => _chargementPrat = false);
@@ -150,6 +153,7 @@ class _ResultatsScreenState extends State<ResultatsScreen>
         _urlSuivantePrat = page.next;
       });
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() => _erreurPrat = e.message);
     } finally {
       if (mounted) setState(() => _chargementPrat = false);

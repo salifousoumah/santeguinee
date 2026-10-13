@@ -112,6 +112,7 @@ class _ConfirmationReservationScreenState
         ),
       );
     } on ApiException catch (e) {
+      if (!mounted) return;
       setState(() {
         _erreur = e.message;
         _enCours = false;
