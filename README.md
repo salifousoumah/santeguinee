@@ -175,6 +175,27 @@ L'API DRF expose aussi une interface navigable (browsable API) sur
 chaque endpoint lorsqu'on y accède depuis un navigateur, utile pour
 explorer les champs attendus sans documentation OpenAPI formelle.
 
+## Tester le parcours patient complet
+
+`backend/test_parcours_patient.sh` rejoue tout le parcours (demande
+de code SMS -> vérification -> création du profil -> recherche d'un
+praticien avec des créneaux libres -> verrouillage -> réservation ->
+"mes rendez-vous" -> annulation) contre un backend en cours
+d'exécution, via `curl`/`jq`. Prérequis : `jq` (`sudo apt install jq`),
+backend démarré (`./run.sh` ou `manage.py runserver`) et
+`seed_demo` déjà exécuté.
+
+```bash
+cd backend
+./test_parcours_patient.sh                 # cible http://127.0.0.1:8001/api par défaut
+BASE_URL=http://127.0.0.1:8000/api ./test_parcours_patient.sh
+```
+
+Chaque appel est automatique sauf un : le script vous demande de
+coller le code reçu par SMS, visible dans le terminal où tourne le
+serveur (le code n'est jamais stocké en clair côté serveur, donc
+impossible à récupérer autrement).
+
 ## Commandes de gestion
 
 - `seed_demo [--reset]` — données de démonstration fictives.
