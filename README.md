@@ -220,3 +220,15 @@ cahier des charges. Simplifications assumées :
   la browsable API de DRF.
 - Mettre en place un scheduler (cron / Celery beat / CronJob) pour
   `generer_creneaux` et `flip_noshows` en environnement de production.
+
+## Application mobile patient (Flutter)
+
+Le code source de l'application mobile patient consommant cette API
+vit dans `mobile/` (voir `mobile/README.md` pour l'installation, la
+correspondance avec les écrans du cahier des charges, et les limites
+connues de l'API qu'elle a fallu contourner côté client). Comme pour
+ce backend lors de sa reconstruction, **Flutter n'était pas installé**
+dans l'environnement qui a écrit ce code : il n'a donc jamais été
+compilé, et `mobile/README.md` détaille précisément ce qui reste à
+vérifier (`flutter create .`, `flutter pub get`, `flutter analyze`)
+avant de pouvoir le lancer.
