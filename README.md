@@ -46,6 +46,25 @@ compte avec :
 venv/bin/python manage.py createsuperuser
 ```
 
+### Port déjà utilisé par un autre projet
+
+Si le port 8000 est déjà pris sur votre machine (un autre projet Django
+qui tourne, par exemple), deux options :
+
+```bash
+# Ponctuel, n'importe quel port :
+venv/bin/python manage.py runserver 8001
+
+# Ou le script fourni, propre à ce projet, qui utilise 8001 par défaut
+# (et écoute sur 0.0.0.0, utile pour tester depuis un téléphone sur le
+# même réseau Wi-Fi — voir mobile/README.md) :
+./run.sh          # -> http://127.0.0.1:8001/
+./run.sh 8002      # pour un autre port ponctuellement
+```
+
+Si vous changez de port, pensez à le répercuter côté mobile (voir
+`mobile/README.md`, variable `API_BASE_URL`).
+
 (le `createsuperuser` demandera un numéro de téléphone, pas un
 username : c'est l'identifiant de connexion de toute la plateforme.)
 

@@ -48,9 +48,15 @@ cd backend
 venv/bin/python manage.py runserver
 ```
 
+Si le port 8000 est déjà pris par un autre projet sur votre machine,
+voir `../README.md` (section "Port déjà utilisé") pour le script
+`./run.sh` qui démarre ce backend sur le port 8001 à la place — dans
+ce cas, remplacez `8000` par `8001` dans chacune des commandes
+`--dart-define=API_BASE_URL=...` ci-dessous.
+
 ### Émulateur Android (cas le plus courant)
 
-Aucune configuration nécessaire : l'URL par défaut
+Aucune configuration nécessaire par défaut : l'URL par défaut
 (`lib/config/api_config.dart`) est `http://10.0.2.2:8000`, l'alias
 spécial qui permet à un **émulateur** Android de joindre le
 **serveur tournant sur la machine hôte**. `127.0.0.1` ou `localhost`
@@ -60,6 +66,12 @@ votre machine — c'est l'erreur classique à ce stade.
 ```bash
 cd mobile
 flutter run
+```
+
+Backend sur le port 8001 (voir plus haut) :
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8001
 ```
 
 ### Simulateur iOS
